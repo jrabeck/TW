@@ -8,6 +8,7 @@ public class Item(List passed in here) {
 	private boolean = exempt; 
 	// books, food, and medical, 10% 
 	private boolean = duty; 
+	private String = name;
 	// 5%
 
 	// cart array 
@@ -18,19 +19,22 @@ public class Item(List passed in here) {
 	// if I do it this way where do they items get their attributes? also does this
 	// belong in main 
 
-	Item cart_item1 = new Item(price, duty, exempt);
+	
 
 	public Item(double price, duty, exempt, string) {
 		double beforetax = price;
-		duty = true/false;
-		exempt = true/false;
-		name = String;
+		boolean duty = if (item.name.contains? "imported" = true) ? false;
+		// refer to database of foods, only populated with chocolate
+		boolean exempt = if (food = true) ? false;
+		String name = string;
 			
 
 
-	}
+	};
 
-	public int Tax(double item.price, boolean duty, boolean exempt) {
+	public getItem
+
+	public double Tax(double item.price, boolean duty, boolean exempt) {
 		aftertax = item.price
 		duty = boolean item.duty
 		exempt = boolean item.exempt
@@ -42,12 +46,12 @@ public class Item(List passed in here) {
 			aftertax = (item.price * .1) + item.price
 		}
 
-		Cart.each.tax();
+		return aftertax 
 
 	}
 
 	// instead of Car.each.tax(); ?
-	item.tax();
+	afterTax = item.tax();
 
 }
 

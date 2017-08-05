@@ -11,16 +11,21 @@ import Register.java;
 class salesTaxesJava {
     public static void main(String[] args) {
         // takes in the text file
+        // I guess 1 cart 1 txt file, though I guess it would be 
+        // better to just read the one file.. 
     	Cart newCart = new Cart(Input1.txt);
+        Cart newCart = new Cart(Input2.txt);
+        Cart newCart = new Cart(Input3.txt);
     }
 
     // does Cart need to be its own class to run this method on. 
     public void printRecipt {
-
+        Cart.eachitem.tax();
+        System.out.println(item.each);
 		System.out.println("Please enter Cart");
-		System.out.println("Thank you! Your total is :  
-							/n + INTERPOLATEtotal) 
-							/n ==========";
+		System.out.println("Thank you! Your total is :"  
+							+ "/n" + grandTotal +
+							"/n ==========";
 
 	}
 };
