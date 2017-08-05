@@ -8,6 +8,8 @@ public class Register {
 
 	}
 
+	
+
 	// add 
 	// takes cost of item and adds it to beforetax
 }
