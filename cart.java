@@ -2,23 +2,35 @@ public class Cart(cart.txt) {
 
 	// each line in the text is an item 
 
-	ArrayList< hash?? > items = new ArrayList< hash?? >();
+	ArrayList< hashmap with multiple keys?? > items = 
+	new ArrayList< hashmap with multiple keys?? >();
 
 
 	public CartParse (items.each).to_string {
 		// how do i read this txt file and assign values??
 		items = item.each;
-		quantity = index[0];
+		private int quantity;
 		price = index[-4].to_double;
 		name;
 		int numberOfItems = number of items;
 		// send each item to items class
 
-		for (item = 0; item.index < numberOfItems; item++){
+
+
+		// breaks the cart into single items. how to keep their 
+		// attributes attatched?
+
+		items.keySet 
+
+		for (object item = 0; item.index < cart.size(); item++){
 			item.map.to_string
-			items << item
+			quantity = index[0];
+			items.add(item);
 		}
 
+		for (object item : items) { items.add(item); }
+
+		item.put( 1, "chocolate", 0.85, true, false)
 
 
 	}
@@ -52,6 +64,16 @@ public class Cart(cart.txt) {
 	// belong in main 
 
 	Item cart_item1 = new Item(price, duty, exempt, name);
+
+	    public void printRecipt {
+        Cart.eachitem.tax();
+        System.out.println(item.each);
+		System.out.println("Please enter Cart");
+		System.out.println("Thank you! Your total is :"  
+							+ "/n" + grandTotal +
+							"/n ==========";
+
+	}
 
 }
 
