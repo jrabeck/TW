@@ -1,6 +1,14 @@
-import java.util; 
-import Items.java;
-import Register.java;
+import java.util.*; 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer; 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 
 
 // originally I was thinking of how to add in user data with prompts, but 
@@ -13,19 +21,17 @@ class salesTaxesJava {
         // takes in the text file
         // I guess 1 cart 1 txt file, though I guess it would be 
         // better to just read the one file.. 
-    	Cart newCart = new Cart(Input1.txt);
-        Cart newCart = new Cart(Input2.txt);
-        Cart newCart = new Cart(Input3.txt);
+
     }
 
     // does Cart need to be its own class to run this method on. 
-    public void printRecipt {
-        Cart.eachitem.tax();
-        System.out.println(item.each);
+    public void printRecipt() {
+
+
 		System.out.println("Please enter Cart");
 		System.out.println("Thank you! Your total is :"  
-							+ "/n" + grandTotal +
-							"/n ==========";
+							+ "/n" + 
+							"/n ==========");
 
 	}
 };

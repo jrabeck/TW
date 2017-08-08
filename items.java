@@ -1,4 +1,4 @@
-public class Item(List passed in here) {
+public class Item(Cart) {
 
 	// break lists into singles items. is this where this goes? do I create 
 	// instances inside the item class and intake each one of the list.
@@ -32,7 +32,11 @@ public class Item(List passed in here) {
 
 	};
 
-	public getItem
+
+	public getItem() {
+
+	}
+
 
 	public double Tax(double item.price, boolean duty, boolean exempt) {
 		aftertax = item.price

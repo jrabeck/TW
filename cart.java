@@ -28,6 +28,7 @@ public class Cart(cart.txt) {
 			items.add(item);
 		}
 
+		// object item : Cart.keySet()
 		for (object item : items) { items.add(item); }
 
 		item.put( 1, "chocolate", 0.85, true, false)

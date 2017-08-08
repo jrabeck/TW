@@ -1,0 +1,21 @@
+class fileReader {
+	# Import some java library that reads file
+
+	# Use that library, by passing a file handle to the input file
+	# this will be in a read method like:
+	public static void readFromFile(fileHandle) {
+		# call java library you imported to read the file by dir path aka fileHandle
+		# in Ruby there is a method called "yield", I'm pretty sure java has that or something similar: google java's yield method ruby equivolent
+		# use a method where you read in line by line
+		do {
+			# read in one line at a time
+			yield lib.Read(fileHandle);
+			# so what's happening here is this lib.Read method is reading one line at a time
+			# the output of which is being passed to the "yield" method
+			# what yield does is, it returns the output of lib.Read, which is one line at time, but without exiting the method
+			# so what happens here is, 1) read 1 line at a time before end of file is reached, 2) pass/return that line without exiting the method
+			# when you finish, return nothing because all this is meant to do is read the file and pass data to another method that process it.
+		} (while != EOF) # here the condition will be to read until end of file.
+	return(void);
+	}
+}

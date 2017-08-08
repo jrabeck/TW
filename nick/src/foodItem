@@ -1,0 +1,4 @@
+class foodItem < item {
+	# child class of item?
+	# anyway, this class extends item attributes and also initialies foodItem attributes
+}

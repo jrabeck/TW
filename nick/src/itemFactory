@@ -1,0 +1,6 @@
+class itemFactory() {
+	# class / singleton method, in ruby written like this:
+	self.processItem(itemData) {
+		return newItem = Item.new(itemData) ;	
+	}
+}

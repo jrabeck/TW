@@ -1,0 +1,63 @@
+public static void main() {
+	
+	# run fileReader but first import it into the code path
+	rawLineData = fileReader.processData("/path/to/input.txt");
+	
+	arrayOfItems << itemFactory.create(rawLineData);
+	total = 0;
+	arrayOfItems.each do |item|
+	  total += item.tax + item.cost
+	end
+
+	printf("#{total} = Total") ;
+	return(0);
+}
+
+
+import java.util; 
+import Items.java;
+import Register.java;
+import java.util.ArrayList;
+
+
+// originally I was thinking of how to add in user data with prompts, but 
+// remembered the directions say to take input instead. this means that 
+// structurally i *DONT* need an array built for cart that I can push into, 
+// or at least not until I'm ready to get fancy. AMMENDMENT: i think i still
+// to store them individually as instances of the item class
+
+class salesTaxesJava {
+    public static void main(String[] args) {
+        // takes in the text file
+        // I guess 1 cart 1 txt file, though I guess it would be 
+        // better to just read the one file.. 
+    	Cart newCart = new Cart(Input1.txt);
+        Cart newCart = new Cart(Input2.txt);
+        Cart newCart = new Cart(Input3.txt);
+    }
+
+    // does Cart need to be its own class to run this method on. 
+
+    public double grandTotal {
+        double grandTotal = 0
+        for (object item : items) grandTotal += item.price ; }
+        return grandTotal
+    }
+
+    public void printRecipt {
+        Cart.eachitem.tax();
+        System.out.println(item.each);
+		System.out.println("Please enter Cart");
+        System.out.pringln(Cart.size() = "items:")
+		System.out.println("Thank you! Your total is :"  
+							+ "/n" + grandTotal +
+							"/n ==========";
+
+	}
+};
+
+
+
+
+
+
