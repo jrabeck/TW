@@ -15,29 +15,42 @@ import java.io.IOException;
 // structurally i *DONT* need an array built for cart that I can push into, 
 // or at least not until I'm ready to get faadfadfadsfncy. 
 
-  class Item {
-      private String name;
-      private double price;
-      private boolean exemption;
+class Item {
+    private String name;
+    private double price;
+    public boolean exemption;
+    private String newName;
 
-      public Item(String name, double price, boolean exemption) {
-        name = name;
-        price = price;
-        exemption = exemption;
-      }
+    public Item(String name, double price, boolean exemption) {
+        this.name = name;
+        this.price = price;
+        this.exemption = exemption;
+    }
 
-      public void setPrice(float beforeTax) {
+    public void setPrice(double beforeTax) {
         price = beforeTax;
-      }
+    }
 
-      public double getPrice () {
+    public double getPrice() {
         return price;
-      }
+    }
 
-      public void standardTax() {
+    public void setExemption(boolean bool) {
+        exemption = bool;
+    }
+
+    public void setName(String newName) {
+        name = newName;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void standardTax() {
         price = price = price + (price / 10); 
-      }
-  }
+    }
+}
 
 public class cashRegister {
     public static void main(String[] args) {
@@ -48,40 +61,56 @@ public class cashRegister {
 
 
         String currentLine = null;
-       
+        Double currentPrice;
         String[] imported = {"imported", "foriegn"};
         String[] exempt = {"book", "medical", "chocolate"};
         Item basket[] = new Item[4];
-        List<Item> order = new ArrayList<Item>();
+        // List<Item> order = new ArrayList<Item>();
         BufferedReader reader = null;
-
-
 
         try {
 
-            File file = new File("/Users/jakerabeck/Programming/TW/New/input.txt");
+            File file = new File("input.txt");
             reader = new BufferedReader(new FileReader(file));
             String line;
             int itemNumber = 0;
 
             while ((line = reader.readLine()) != null) {   
                 System.out.println(line);
+                if (!line.contains("Input")) {
+                  itemNumber = itemNumber + 1;
+                }
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
               StringTokenizer words = new StringTokenizer(line);
-              itemNumber = itemNumber + 1;
+
+              Item newItem = new Item("", 0, false);
 
                 while (words.hasMoreTokens()) {         
                   String current = words.nextToken();
-                  boolean exemption = taxFind(current, exempt);
+                  boolean exemption = exemptFind(current, exempt);
+
                   if (exemption == true) {
                     System.out.println("The above item is tax exempt");
+                    newItem.setExemption(true);
+                  }
+                  
+                  if (current.contains(".")) {
+                    currentPrice = Double.parseDouble(current);
                   }
                 
               }
-                // basket[1] = new Item("hi", 4.7, false);
-                 Item newItem = new Item("hi", 4.7, false);
-                System.out.println("Number of lines: " + itemNumber);
+                basket[1] = new Item("hi", 4.7, false);
+
+                // order.add(newItem);
+
+                System.out.println("Item number: " + itemNumber);
+                boolean exemptStatus = newItem.exemption; 
+                if (exemptStatus == true) {
+                System.out.println("working");
+              }
+                System.out.println(newItem.getName());
+              
             }
             
 
@@ -101,7 +130,7 @@ public class cashRegister {
 
 
 
-  public static boolean taxFind(String word, String[] taxBracket) {
+  public static boolean exemptFind(String word, String[] taxBracket) {
       for(int i =0; i < taxBracket.length; i++)
       {
           if(word.contains(taxBracket[i]))
