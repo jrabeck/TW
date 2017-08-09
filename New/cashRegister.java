@@ -15,6 +15,30 @@ import java.io.IOException;
 // structurally i *DONT* need an array built for cart that I can push into, 
 // or at least not until I'm ready to get faadfadfadsfncy. 
 
+  class Item {
+      private String name;
+      private double price;
+      private boolean exemption;
+
+      public Item(String name, double price, boolean exemption) {
+        name = name;
+        price = price;
+        exemption = exemption;
+      }
+
+      public void setPrice(float beforeTax) {
+        price = beforeTax;
+      }
+
+      public double getPrice () {
+        return price;
+      }
+
+      public void standardTax() {
+        price = price = price + (price / 10); 
+      }
+  }
+
 public class cashRegister {
     public static void main(String[] args) {
         
@@ -27,31 +51,39 @@ public class cashRegister {
        
         String[] imported = {"imported", "foriegn"};
         String[] exempt = {"book", "medical", "chocolate"};
-
+        Item basket[] = new Item[4];
+        List<Item> order = new ArrayList<Item>();
         BufferedReader reader = null;
 
+
+
         try {
+
             File file = new File("/Users/jakerabeck/Programming/TW/New/input.txt");
             reader = new BufferedReader(new FileReader(file));
-
             String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+            int itemNumber = 0;
 
+            while ((line = reader.readLine()) != null) {   
+                System.out.println(line);
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
               StringTokenizer words = new StringTokenizer(line);
-              while (words.hasMoreTokens()) {         
-                String current = words.nextToken();
-                String goodbye = "GOODBYE";
-                System.out.println(current);
-                if (current.equals(exempt)) {
-                  System.out.println("balls");
+              itemNumber = itemNumber + 1;
 
-                };
+                while (words.hasMoreTokens()) {         
+                  String current = words.nextToken();
+                  boolean exemption = taxFind(current, exempt);
+                  if (exemption == true) {
+                    System.out.println("The above item is tax exempt");
+                  }
                 
               }
+                // basket[1] = new Item("hi", 4.7, false);
+                 Item newItem = new Item("hi", 4.7, false);
+                System.out.println("Number of lines: " + itemNumber);
             }
+            
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,32 +94,26 @@ public class cashRegister {
                 e.printStackTrace();
             }
         }
+    } 
+    // *********MAIN*************
 
 
-        
-    }
 
-      int methodName(int a, int b) {
-        return  0;
-   // body
-}
 
-    public static int minFunction(int n1, int n2) {
-               int min;
-               if (n1 > n2)
-                  min = n2;
-               else
-                  min = n1;
 
-               return min; 
-            }
-    private int hi = methodName(5,9);
+  public static boolean taxFind(String word, String[] taxBracket) {
+      for(int i =0; i < taxBracket.length; i++)
+      {
+          if(word.contains(taxBracket[i]))
+          {
+              return true;
+          }
+      }
+      return false;
+  }
+
+
+
+
 
 };
-
-   
-
-
-     
-    // while there is a line to read
-    
