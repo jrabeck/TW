@@ -31,17 +31,25 @@ public class cashRegister {
         BufferedReader reader = null;
 
         try {
-            File file = new File("/Users/jakerabeck/Programming/New/input.txt");
+            File file = new File("/Users/jakerabeck/Programming/TW/New/input.txt");
             reader = new BufferedReader(new FileReader(file));
 
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
 
+              // line is the string of a line as a whole, words is the line
+              // as an object, current is the current word as a string. 
               StringTokenizer words = new StringTokenizer(line);
-              while (words.hasMoreTokens()) {
-                System.out.println(words.nextToken());
-                System.out.println("|");
+              while (words.hasMoreTokens()) {         
+                String current = words.nextToken();
+                String goodbye = "GOODBYE";
+                System.out.println(current);
+                if (current.equals(exempt)) {
+                  System.out.println("balls");
+
+                };
+                
               }
             }
 
@@ -83,5 +91,3 @@ public class cashRegister {
      
     // while there is a line to read
     
-   
-
