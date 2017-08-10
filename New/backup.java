@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import java.util.*; 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,7 +23,7 @@ import java.io.IOException;
 
 class Item {
     private String name;
-    public double price;
+    private double price;
     public boolean exemption;
     private String newName;
 
@@ -27,7 +33,7 @@ class Item {
         this.exemption = exemption;
     }
 
-    public void setPrice(double beforeTax) {
+    public void setPrice(float beforeTax) {
         price = beforeTax;
     }
 
@@ -61,7 +67,7 @@ public class cashRegister {
 
 
         String currentLine = null;
-
+       
         String[] imported = {"imported", "foriegn"};
         String[] exempt = {"book", "medical", "chocolate"};
         Item basket[] = new Item[4];
@@ -73,11 +79,9 @@ public class cashRegister {
             File file = new File("input.txt");
             reader = new BufferedReader(new FileReader(file));
             String line;
-
             int itemNumber = 0;
 
-            while ((line = reader.readLine()) != null) { 
-
+            while ((line = reader.readLine()) != null) {   
                 System.out.println(line);
                 if (!line.contains("Input")) {
                   itemNumber = itemNumber + 1;
@@ -87,20 +91,13 @@ public class cashRegister {
               StringTokenizer words = new StringTokenizer(line);
 
               Item newItem = new Item("", 0, false);
-              Double currentPrice = newItem.price;
 
                 while (words.hasMoreTokens()) {         
                   String current = words.nextToken();
                   boolean exemption = exemptFind(current, exempt);
-                 
-                  if (current.contains(".")) {
-                    currentPrice = Double.parseDouble(current);
-                  }
-
-                  if (exemption = false) {
+                  if (exemption == true) {
+                    System.out.println("The above item is tax exempt");
                     newItem.setExemption(true);
-                    Double afterTax = currentPrice + (currentPrice / 10);
-                    System.out.println("With tax: " + afterTax);
                   }
                 
               }
