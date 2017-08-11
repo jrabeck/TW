@@ -106,14 +106,16 @@ public class cashRegister {
 
                 while (words.hasMoreTokens()) {         
                   String current = words.nextToken();
-                       if (int quantity = Integer.parseInt(current)){};
+                  
+                  // int quantity = Integer.parseInt(current);
+
                   // boolean isExempt = exemptFind(current, exempt);
                   // if (isExempt == true) {
                   // newItem.setExemption(isExempt);
                   // }
-                  if (current instanceof String) {
-                    System.out.println("TheBeatles");
-                  }
+                  // if (current instanceof String) {
+                  //   System.out.println("TheBeatles");
+                  // }
 
                   if (current.contains(".")) {
                     currentPrice = Double.parseDouble(current);
