@@ -1,4 +1,8 @@
 Input 1:
+medical 90.00
+chocolate 40.99
 1 book at 12.49
 1 music CD at 14.99
+1 chocolate bar at 0.85
+book 34.67
 1 chocolate bar at 0.85

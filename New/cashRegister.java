@@ -3,8 +3,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer; 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,19 +14,26 @@ import java.io.IOException;
 // or at least not until I'm ready to get faadfadfadsfncy. 
 
 class Item {
-    private String name;
+  // yes, i know this is abbhorent 
+    public String name;
     public double price;
     public boolean exemption;
-    private String newName;
+    public String newName;
+    public int quantity;
 
-    public Item(String name, double price, boolean exemption) {
+    public Item(String name, double price, boolean exemption, int quantity) {
         this.name = name;
         this.price = price;
         this.exemption = exemption;
+        this.quantity = quantity;
     }
 
     public void setPrice(double beforeTax) {
         price = beforeTax;
+    }
+
+    public void setQuantity(int newQuantity) {
+      quantity = newQuantity;
     }
 
     public double getPrice() {
@@ -37,6 +42,10 @@ class Item {
 
     public void setExemption(boolean bool) {
         exemption = bool;
+    }
+
+    public boolean getExemption() {
+        return this.exemption;
     }
 
     public void setName(String newName) {
@@ -48,7 +57,7 @@ class Item {
     }
 
     public void standardTax() {
-        price = price = price + (price / 10); 
+        price = price + (price / 10); 
     }
 }
 
@@ -64,8 +73,9 @@ public class cashRegister {
 
         String[] imported = {"imported", "foriegn"};
         String[] exempt = {"book", "medical", "chocolate"};
-        Item basket[] = new Item[4];
-        // List<Item> order = new ArrayList<Item>();
+        // Item basket[] = new Item[4];
+        // basket[1] = new Item("hi", 4.7, false);
+        // // List<Item> order = new ArrayList<Item>();
         BufferedReader reader = null;
 
         try {
@@ -84,37 +94,42 @@ public class cashRegister {
                 }
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
+
+                  Item newItem = new Item("", 0, false, 0);                 
+                  boolean isExempt = exemptFind(line, exempt);
+                  if (isExempt == true) {
+                  newItem.setExemption(isExempt);
+                }
               StringTokenizer words = new StringTokenizer(line);
 
-              Item newItem = new Item("", 0, false);
               Double currentPrice = newItem.price;
 
                 while (words.hasMoreTokens()) {         
                   String current = words.nextToken();
-                  boolean exemption = exemptFind(current, exempt);
-                 
+                       if (int quantity = Integer.parseInt(current)){};
+                  // boolean isExempt = exemptFind(current, exempt);
+                  // if (isExempt == true) {
+                  // newItem.setExemption(isExempt);
+                  // }
+                  if (current instanceof String) {
+                    System.out.println("TheBeatles");
+                  }
+
                   if (current.contains(".")) {
                     currentPrice = Double.parseDouble(current);
-                  }
-
-                  if (exemption = false) {
-                    newItem.setExemption(true);
-                    Double afterTax = currentPrice + (currentPrice / 10);
-                    System.out.println("With tax: " + afterTax);
-                  }
+                    newItem.setPrice(currentPrice);
+                      if (newItem.getExemption() == false) {
+                      Double afterTax = newItem.price + (newItem.price / 10);
+                      System.out.println("With tax: " + afterTax);
+                    }
                 
-              }
-                basket[1] = new Item("hi", 4.7, false);
+                  }
 
-                // order.add(newItem);
+              }
 
                 System.out.println("Item number: " + itemNumber);
-                boolean exemptStatus = newItem.exemption; 
-                if (exemptStatus == true) {
-                System.out.println("working");
-              }
+                System.out.println(newItem.getExemption());
                 System.out.println(newItem.getName());
-              
             }
             
 
@@ -135,14 +150,17 @@ public class cashRegister {
 
 
   public static boolean exemptFind(String word, String[] taxBracket) {
-      for(int i =0; i < taxBracket.length; i++)
+      for(int i = 0; i < (taxBracket.length +1); i++)
       {
-          if(word.contains(taxBracket[i]))
+          if (word.contains(taxBracket[i]))
           {
               return true;
           }
+          else {
+            return false;
+          }
       }
-      return false;
+      return true;
   }
 
 
