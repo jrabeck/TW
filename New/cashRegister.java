@@ -73,11 +73,6 @@ class Item {
 
 public class cashRegister {
     public static void main(String[] args) {
-        
-
-        System.out.println("Please enter Cart");
-        System.out.println("Thank you! Your total is :");
-
 
         String currentLine = null;
 
@@ -95,14 +90,23 @@ public class cashRegister {
             String line;
 
             int customerNumber = 0;
+            Double runningTotal = 0.0;
 
 
             while ((line = reader.readLine()) != null) { 
 
                 System.out.println(line);
                 if (line.contains("Input")) {
+                  if (runningTotal != 0.0) {
+                  System.out.println("");
+                  }
+                  runningTotal = 0.0;
                   customerNumber = customerNumber + 1;
+                  System.out.println("Customer number: " + customerNumber);
                 }
+
+
+           
 
                 else {
               // line is the string of a line as a whole, words is the line
@@ -121,7 +125,6 @@ public class cashRegister {
                     int quantity = Integer.parseInt(words.nextToken()); 
                     newItem.setQuantity(quantity);
                     Double currentPrice = newItem.price;
-                    System.out.println(quantity);
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
@@ -152,15 +155,16 @@ public class cashRegister {
                         Double afterDuty = newItem.price + (newItem.price * 0.05);
                         newItem.setPrice(afterDuty);
                         }
-                        
+                      runningTotal = runningTotal + (newItem.getPrice());
                     }
 
                 }
+
                   System.out.println("With tax: " + newItem.getPrice());
-                  System.out.println("Customer number: " + customerNumber);
-                  System.out.println(newItem.getExemption());
-                  System.out.println(newItem.getName());
+                  
+                  
             }
+                  System.out.println("Total: " + runningTotal + "\n");
           }
             
 

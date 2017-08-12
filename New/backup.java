@@ -71,13 +71,8 @@ class Item {
     }
 }
 
-public class backup {
+public class cashRegister {
     public static void main(String[] args) {
-        
-
-        System.out.println("Please enter Cart");
-        System.out.println("Thank you! Your total is :");
-
 
         String currentLine = null;
 
@@ -104,7 +99,9 @@ public class backup {
                   customerNumber = customerNumber + 1;
                 }
 
-                else {
+           
+
+                if (!line.contains("Input")) {
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
 
@@ -121,7 +118,6 @@ public class backup {
                     int quantity = Integer.parseInt(words.nextToken()); 
                     newItem.setQuantity(quantity);
                     Double currentPrice = newItem.price;
-                    System.out.println(quantity);
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
@@ -158,8 +154,7 @@ public class backup {
                 }
                   System.out.println("With tax: " + newItem.getPrice());
                   System.out.println("Customer number: " + customerNumber);
-                  System.out.println(newItem.getExemption());
-                  System.out.println(newItem.getName());
+                  System.out.println("");
             }
           }
             
