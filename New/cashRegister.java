@@ -91,44 +91,55 @@ public class cashRegister {
 
             int customerNumber = 0;
             Double runningTotal = 0.0;
+            Double runningTax = 0.0;
 
 
             while ((line = reader.readLine()) != null) { 
 
-                System.out.println(line);
+                
                 if (line.contains("Input")) {
                   if (runningTotal != 0.0) {
                   System.out.println("");
                   }
                   runningTotal = 0.0;
+                  runningTax = 0.0;
                   customerNumber = customerNumber + 1;
-                  System.out.println("Customer number: " + customerNumber);
+                  line = ("Output: " + customerNumber);
+                  System.out.println(line);
                 }
+                  
 
-
-           
+            
 
                 else {
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
-
+                    System.out.println(line);
                     Item newItem = new Item("", 0, false, 0, false);                 
                     boolean isExempt = exemptFind(line, exempt);
                     boolean hasADuty = dutyFind(line, imported);
+                    StringTokenizer words = new StringTokenizer(line);
+                    // this whole first character thing I wrote to help with the quantity
+                    // problem, to have firstCharacter to use in a method
+                    String firstCharacter = words.nextToken();
+                    // System.out.println(firstCharacter);
+                    // so what's happening is it's going to the first character and seeing
+                    // that it ("I") isn't int convertable, and this is breaking the try 
+                    // method, which even though I don't understadn try really, i get. it's an
+                    // exception that it catches. I 
+                    // can't do any code after the final because of this. still compiles
+                    // for some reason. 
+                    int quantity = Integer.parseInt(firstCharacter); 
+                    newItem.setQuantity(quantity);
+                    Double currentPrice = newItem.price;
                     if (isExempt == true) {
-                        newItem.setExemption(isExempt);
+                    newItem.setExemption(isExempt);
                      }
                     if (hasADuty == true) {
                         newItem.setDuty(hasADuty);
                     }
-                    StringTokenizer words = new StringTokenizer(line);
-                    int quantity = Integer.parseInt(words.nextToken()); 
-                    newItem.setQuantity(quantity);
-                    Double currentPrice = newItem.price;
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
-
-                    // int quantity = Integer.parseInt(current);
 
                     // boolean isExempt = exemptFind(current, exempt);
                     // if (isExempt == true) {
@@ -138,15 +149,13 @@ public class cashRegister {
                     //   System.out.println("TheBeatles");
                     // }
 
-
-
-                    // ctrl z a while to back to where regular tax was calculating
                     if (current.contains(".")) {
                       currentPrice = Double.parseDouble(current);
                       newItem.setPrice(currentPrice);
                         if (newItem.getExemption() == false) {
                         Double afterTax = newItem.price + (newItem.price * 0.1);
                         newItem.setPrice(afterTax * quantity);
+                        runningTax = (runningTax + (newItem.price * 0.1));
                         }
                           else {
                             newItem.setPrice(currentPrice * quantity);
@@ -154,6 +163,7 @@ public class cashRegister {
                         if (newItem.getDuty() == true) {
                         Double afterDuty = newItem.price + (newItem.price * 0.05);
                         newItem.setPrice(afterDuty);
+                        runningTax = (runningTax + (newItem.price * 0.05));
                         }
                       runningTotal = runningTotal + (newItem.getPrice());
                     }
@@ -161,10 +171,13 @@ public class cashRegister {
                 }
 
                   System.out.println("With tax: " + newItem.getPrice());
+                  System.out.println("Running Tax: " + runningTax + "\n");
+                  System.out.println("Total: " + runningTotal + "\n");
                   
                   
             }
-                  System.out.println("Total: " + runningTotal + "\n");
+                  // pretty sure this is where the total should be printed out after fixing 
+                  // the quantity problem.
           }
             
 
@@ -177,6 +190,7 @@ public class cashRegister {
                 e.printStackTrace();
             }
         }
+        System.out.println("=====================");
     } 
     // *********MAIN*************
 
