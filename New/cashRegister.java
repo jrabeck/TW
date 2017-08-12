@@ -14,22 +14,32 @@ import java.io.IOException;
 // or at least not until I'm ready to get faadfadfadsfncy. 
 
 class Item {
-  // yes, i know this is abbhorent 
+  // yes, i know this is abbhorent having everything public
     public String name;
     public double price;
     public boolean exemption;
     public String newName;
     public int quantity;
+    public boolean duty; 
 
-    public Item(String name, double price, boolean exemption, int quantity) {
+    public Item(String name, double price, boolean exemption, int quantity, boolean duty) {
         this.name = name;
         this.price = price;
         this.exemption = exemption;
         this.quantity = quantity;
+        this.duty = duty;
     }
 
     public void setPrice(double beforeTax) {
         price = beforeTax;
+    }
+
+    public void setDuty(boolean hasDuty) {
+        duty = hasDuty;
+    }
+
+    public boolean getDuty() {
+        return duty;
     }
 
     public void setQuantity(int newQuantity) {
@@ -84,55 +94,74 @@ public class cashRegister {
             reader = new BufferedReader(new FileReader(file));
             String line;
 
-            int itemNumber = 0;
+            int customerNumber = 0;
+
 
             while ((line = reader.readLine()) != null) { 
 
                 System.out.println(line);
-                if (!line.contains("Input")) {
-                  itemNumber = itemNumber + 1;
+                if (line.contains("Input")) {
+                  customerNumber = customerNumber + 1;
                 }
+
+                else {
               // line is the string of a line as a whole, words is the line
               // as an object, current is the current word as a string. 
 
-                  Item newItem = new Item("", 0, false, 0);                 
-                  boolean isExempt = exemptFind(line, exempt);
-                  if (isExempt == true) {
-                  newItem.setExemption(isExempt);
-                }
-              StringTokenizer words = new StringTokenizer(line);
-
-              Double currentPrice = newItem.price;
-
-                while (words.hasMoreTokens()) {         
-                  String current = words.nextToken();
-                  
-                  // int quantity = Integer.parseInt(current);
-
-                  // boolean isExempt = exemptFind(current, exempt);
-                  // if (isExempt == true) {
-                  // newItem.setExemption(isExempt);
-                  // }
-                  // if (current instanceof String) {
-                  //   System.out.println("TheBeatles");
-                  // }
-
-                  if (current.contains(".")) {
-                    currentPrice = Double.parseDouble(current);
-                    newItem.setPrice(currentPrice);
-                      if (newItem.getExemption() == false) {
-                      Double afterTax = newItem.price + (newItem.price / 10);
-                      System.out.println("With tax: " + afterTax);
+                    Item newItem = new Item("", 0, false, 0, false);                 
+                    boolean isExempt = exemptFind(line, exempt);
+                    boolean hasADuty = dutyFind(line, imported);
+                    if (isExempt == true) {
+                        newItem.setExemption(isExempt);
+                     }
+                    if (hasADuty == true) {
+                        newItem.setDuty(hasADuty);
                     }
-                
-                  }
+                    StringTokenizer words = new StringTokenizer(line);
+                    int quantity = Integer.parseInt(words.nextToken()); 
+                    newItem.setQuantity(quantity);
+                    Double currentPrice = newItem.price;
+                    System.out.println(quantity);
+                    while (words.hasMoreTokens()) {         
+                    String current = words.nextToken();
 
-              }
+                    // int quantity = Integer.parseInt(current);
 
-                System.out.println("Item number: " + itemNumber);
-                System.out.println(newItem.getExemption());
-                System.out.println(newItem.getName());
+                    // boolean isExempt = exemptFind(current, exempt);
+                    // if (isExempt == true) {
+                    // newItem.setExemption(isExempt);
+                    // }
+                    // if (current instanceof String) {
+                    //   System.out.println("TheBeatles");
+                    // }
+
+
+
+                    // ctrl z a while to back to where regular tax was calculating
+                    if (current.contains(".")) {
+                      currentPrice = Double.parseDouble(current);
+                      newItem.setPrice(currentPrice);
+                        if (newItem.getExemption() == false) {
+                        Double afterTax = newItem.price + (newItem.price * 0.1);
+                        newItem.setPrice(afterTax * quantity);
+                        }
+                          else {
+                            newItem.setPrice(currentPrice * quantity);
+                          }
+                        if (newItem.getDuty() == true) {
+                        Double afterDuty = newItem.price + (newItem.price * 0.05);
+                        newItem.setPrice(afterDuty);
+                        }
+                        
+                    }
+
+                }
+                  System.out.println("With tax: " + newItem.getPrice());
+                  System.out.println("Customer number: " + customerNumber);
+                  System.out.println(newItem.getExemption());
+                  System.out.println(newItem.getName());
             }
+          }
             
 
         } catch (IOException e) {
@@ -152,17 +181,27 @@ public class cashRegister {
 
 
   public static boolean exemptFind(String word, String[] taxBracket) {
-      for(int i = 0; i < (taxBracket.length +1); i++)
+
+      for(int i = 0; i < (taxBracket.length); i++)
       {
           if (word.contains(taxBracket[i]))
           {
               return true;
           }
-          else {
-            return false;
+      }
+      return false;
+  }
+
+  public static boolean dutyFind(String wordd, String[] dutyCheck) {
+
+      for(int i = 0; i < (dutyCheck.length); i++)
+      {
+          if (wordd.contains(dutyCheck[i]))
+          {
+              return true;
           }
       }
-      return true;
+      return false;
   }
 
 
