@@ -1,12 +1,12 @@
 class Item {
     private String name;
-    private double price;
+    private Float price;
     private boolean exemption;
     private String newName;
-    private int quantity;
+    private Float quantity;
     private boolean duty; 
 
-    public Item(String name, double price, boolean exemption, int quantity, boolean duty) {
+    public Item(String name, Float price, boolean exemption, Float quantity, boolean duty) {
         this.name = name;
         this.price = price;
         this.exemption = exemption;
@@ -14,7 +14,7 @@ class Item {
         this.duty = duty;
     }
 
-    public void setPrice(double beforeTax) {
+    public void setPrice(Float beforeTax) {
         price = beforeTax;
     }
 
@@ -26,15 +26,15 @@ class Item {
         return duty;
     }
 
-    public void setQuantity(int newQuantity) {
+    public void setQuantity(Float newQuantity) {
       quantity = newQuantity;
     }
 
-    public int getQuantity() {
+    public Float getQuantity() {
         return quantity;
     }
 
-    public double getPrice() {
+    public Float getPrice() {
         return price;
     }
 
@@ -55,14 +55,14 @@ class Item {
     }
 
     public void standardTax() {
-        price = price + (price / 10); 
+        price = price + (price / 10.0f); 
     }
 
     public void importTax() {
-        price = price + (price * 0.05);
+        price = price + (price * 0.05f);
     }
 
-    public Double getImportTax() {
-        return (price * 0.05);
+    public Float getImportTax() {
+        return (price * 0.05f);
     }
 }

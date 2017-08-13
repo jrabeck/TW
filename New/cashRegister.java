@@ -30,9 +30,9 @@ public class cashRegister {
             File input = new File("input.txt");
             reader = new BufferedReader(new FileReader(input));
             String itemDesc;
-            int customerNumber = 0;
-            Double runningTotal = 0.0;
-            Double runningTax = 0.0;
+            Float customerNumber = 0f;
+            Float runningTotal = 0.0f;
+            Float runningTax = 0.0f;
 
             while ((itemDesc = reader.readLine()) != null) { 
               
@@ -42,8 +42,8 @@ public class cashRegister {
                         System.out.println("Total: " + runningTotal);
                         System.out.println();
                     }
-                    runningTotal = 0.0;
-                    runningTax = 0.0;
+                    runningTotal = 0.0f;
+                    runningTax = 0.0f;
                     customerNumber = customerNumber + 1;
                     System.out.println("Output " + customerNumber + ":");
                 }
@@ -55,7 +55,7 @@ public class cashRegister {
                 else {
                     // itemDesc is the string of a itemDesc as a whole, words is the itemDesc
                     // as an object, current is the current word as a string. 
-                    Item newItem = new Item("", 0, false, 0, false);                 
+                    Item newItem = new Item("", 0.0f, false, 0.0f, false);                 
                     boolean isExempt = exemptFind(itemDesc, exempt);
                     boolean hasADuty = dutyFind(itemDesc, imported);
                     StringTokenizer words = new StringTokenizer(itemDesc);
@@ -76,9 +76,9 @@ public class cashRegister {
                     // exception that it catches. I 
                     // can't do any code after the final because of this. still compiles
                     // for some reason. 
-                    int quantity = Integer.parseInt(firstCharacter); 
+                    Float quantity = Float.parseFloat(firstCharacter); 
                     newItem.setQuantity(quantity);
-                    Double currentPrice = newItem.getPrice();
+                    Float currentPrice = newItem.getPrice();
                     if (isExempt == true) {
                         newItem.setExemption(isExempt);
                     }
@@ -94,69 +94,41 @@ public class cashRegister {
 
                         // else {
                         //   currentPrice = current.nextToken();
-                        //   currentPrice = Double.parseDouble(nextToken());
+                        //   currentPrice = Float.parseFloat(nextToken());
                         //   newItem.setPrice(currentPrice);
                         // }
 
                         if (current.contains(".")) {
-                            currentPrice = Double.parseDouble(current);
+                            currentPrice = Float.parseFloat(current);
                             newItem.setPrice(currentPrice);
-                            Double price = newItem.getPrice();
+                            Float price = newItem.getPrice();
                             // 14.99
-                            Double cents = newItem.getPrice() * 100;
+                            Float cents = newItem.getPrice() * 100;
                             // 1499
-                            Double realTax = 0.0;
+                            Float realTax = 0.0f;
                             // 0.00
                             if (newItem.getExemption() == false) {
-                                Double itemTax = 0.0;
-                                Double tax = (cents / 1000);
-                                // 1.499
-                                Double taxCents = tax * 100;
-                                // 149.9
-                                Double fiveTax = cents % 5.0;
-                                // 4
-                                    if (fiveTax == 1.0) {
-                                        realTax = ((price - fiveTax) / 10);
-                                    }
-                                    else if (fiveTax == 2.0) {
-                                        realTax = ((price - fiveTax) / 10);
-                                    }
-                                    else if (fiveTax == 3.0) {
-                                        realTax = ((price + 555.02) / 10);
-                                    }
-                                    else if (fiveTax == 4.0) {
-                                        // realTax = Math.round(tax*20.0) / 20.0;
-
-                                        realTax = ((price + 0.01) / 10);
-                                        // realTax = Math.round(realTax * 20) / 20.0;
-
-                                    }
-                                    else if (fiveTax == 0.0) {
-                                        realTax = tax; 
-                                    }
-                                  Double finalTax = (taxCents / 100);
-                                  newItem.setPrice((newItem.getPrice() + realTax) * quantity);
-
-                                // Double roundTax = Math.round(tax*100.0)/100.0;
-                                // Double afterTax = newItem.getPrice() + roundTax;
-                                // afterTax = Math.round(afterTax*100.0)/100.0;
-                                // newItem.setPrice(afterTax * quantity);
-                                runningTax = (runningTax + (tax * quantity));
+                                Float regTax = (price * 0.1f);
+                                System.out.println("tax = " + regTax);
+                                price = regTax + price;
+                                newItem.setPrice(price);
+                                System.out.println("price set to = " + newItem.getPrice());
+                                runningTax = (runningTax + (regTax * quantity));
                             }
                                 else {
                                     newItem.setPrice(currentPrice * quantity);
                                 }
 
                             if (newItem.getDuty() == true) {
-                                Double duty = (newItem.getPrice() * 0.05);
-                                Double roundDuty = Math.round(duty*100.0)/100.0;
-                                Double afterDuty = newItem.getPrice() + roundDuty;
-                                afterDuty = Math.round(afterDuty*100.0)/100.0;
-                                newItem.setPrice(afterDuty);
-                                runningTax = (runningTax + duty);
+                                Float dutyTax = (price * 0.05f);
+                                System.out.println("tax = " + dutyTax);
+                                price = dutyTax + price;
+                                newItem.setPrice(price);
+                                System.out.println("price set to = " + newItem.getPrice());
+                                runningTax = (runningTax + (dutyTax * quantity));
                             }
                             runningTotal = runningTotal + (newItem.getPrice());
-                            
+                            System.out.println();
                         }
 
                     }
@@ -166,7 +138,7 @@ public class cashRegister {
                         zero = "0";
                     } 
 
-                    // Double finalPrice = newItem.getPrice();
+                    // Float finalPrice = newItem.getPrice();
                     // DecimalFormat dec = new DecimalFormat("#.##").format(finalPrice);
                     System.out.println(newItem.getQuantity() + newItem.getName() + ": " + newItem.getPrice() + zero);
                 }
@@ -189,6 +161,26 @@ public class cashRegister {
         System.out.println("==========");
     } 
 
+    public Float roundTo5(Float finalPrice) {
+          Float cents   = finalPrice * 100;
+          Float fiveValue = cents % 5.0f;
+          if (fiveValue == 1.0) {
+              return ((finalPrice - fiveValue) / 10);
+          }
+          else if (fiveValue == 2.0) {
+              return ((finalPrice - fiveValue) / 10);
+          }
+          else if (fiveValue == 3.0) {
+              return ((finalPrice + 0.02f) / 10);
+          }
+          else if (fiveValue == 4.0) {
+              return ((finalPrice + 0.01f) / 10f);
+          }
+          else if (fiveValue == 0.0) {
+              return cents / 1000;
+          }
+         return 0.0f;
+    }
 
     public static boolean exemptFind(String word, String[] taxExempt) {
         for(int i = 0; i < (taxExempt.length); i++) {
