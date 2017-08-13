@@ -14,67 +14,6 @@ import java.io.IOException;
 // structurally i *DONT* need an array built for cart that I can push into, 
 // or at least not until I'm ready to get fancy. 
 
-class Item {
-    private String name;
-    private double price;
-    private boolean exemption;
-    private String newName;
-    private int quantity;
-    private boolean duty; 
-
-    public Item(String name, double price, boolean exemption, int quantity, boolean duty) {
-        this.name = name;
-        this.price = price;
-        this.exemption = exemption;
-        this.quantity = quantity;
-        this.duty = duty;
-    }
-
-    public void setPrice(double beforeTax) {
-        price = beforeTax;
-    }
-
-    public void setDuty(boolean hasDuty) {
-        duty = hasDuty;
-    }
-
-    public boolean getDuty() {
-        return duty;
-    }
-
-    public void setQuantity(int newQuantity) {
-      quantity = newQuantity;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setExemption(boolean bool) {
-        exemption = bool;
-    }
-
-    public boolean getExemption() {
-        return this.exemption;
-    }
-
-    public void setName(String newName) {
-        name = newName;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void standardTax() {
-        price = price + (price / 10); 
-    }
-}
-
 public class cashRegister {
     public static void main(String[] args) {
 
@@ -162,33 +101,46 @@ public class cashRegister {
                         if (current.contains(".")) {
                             currentPrice = Double.parseDouble(current);
                             newItem.setPrice(currentPrice);
+                            Double price = newItem.getPrice();
+                            // 14.99
                             Double cents = newItem.getPrice() * 100;
+                            // 1499
+                            Double realTax = 0.0;
+                            // 0.00
                             if (newItem.getExemption() == false) {
+                                Double itemTax = 0.0;
+                                Double tax = (cents / 1000);
+                                // 1.499
+                                Double taxCents = tax * 100;
+                                // 149.9
+                                Double fiveTax = cents % 5.0;
+                                // 4
+                                    if (fiveTax == 1.0) {
+                                        realTax = ((price - fiveTax) / 10);
+                                    }
+                                    else if (fiveTax == 2.0) {
+                                        realTax = ((price - fiveTax) / 10);
+                                    }
+                                    else if (fiveTax == 3.0) {
+                                        realTax = ((price + 555.02) / 10);
+                                    }
+                                    else if (fiveTax == 4.0) {
+                                        // realTax = Math.round(tax*20.0) / 20.0;
 
-                                Double tax = (newItem.getPrice() * 0.1);
-                                // Double taxCents = tax * 100;
-                                // Double fiveTax = taxCents % 5.0;
-                                //     if (fiveTax == 1.0) {
-                                //         tax = tax - fiveTax;
-                                //     }
-                                //     if (fiveTax == 2.0) {
-                                //         tax = tax - fiveTax;
-                                //     }
-                                //     else if (fiveTax == 3.0) {
-                                //         tax = tax + 0.02;
-                                //     }
-                                //     else if (fiveTax == 4.0) {
-                                //         tax = tax + 0.01;
-                                //     }
-                                //     else if (fiveTax == 0.0) {
+                                        realTax = ((price + 0.01) / 10);
+                                        // realTax = Math.round(realTax * 20) / 20.0;
 
-                                //     }
-                                //   newItem.setPrice((newItem.getPrice() + tax) * quantity);
+                                    }
+                                    else if (fiveTax == 0.0) {
+                                        realTax = tax; 
+                                    }
+                                  Double finalTax = (taxCents / 100);
+                                  newItem.setPrice((newItem.getPrice() + realTax) * quantity);
 
-                                Double roundTax = Math.round(tax*100.0)/100.0;
-                                Double afterTax = newItem.getPrice() + roundTax;
-                                afterTax = Math.round(afterTax*100.0)/100.0;
-                                newItem.setPrice(afterTax * quantity);
+                                // Double roundTax = Math.round(tax*100.0)/100.0;
+                                // Double afterTax = newItem.getPrice() + roundTax;
+                                // afterTax = Math.round(afterTax*100.0)/100.0;
+                                // newItem.setPrice(afterTax * quantity);
                                 runningTax = (runningTax + (tax * quantity));
                             }
                                 else {
@@ -208,7 +160,15 @@ public class cashRegister {
                         }
 
                     }
-                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + newItem.getPrice());
+                    String zero = "";
+                    
+                    if (newItem.getPrice() % 0.01 < 0.0 ) {
+                        zero = "0";
+                    } 
+
+                    // Double finalPrice = newItem.getPrice();
+                    // DecimalFormat dec = new DecimalFormat("#.##").format(finalPrice);
+                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + newItem.getPrice() + zero);
                 }
 
                 
