@@ -131,9 +131,6 @@ public class cashRegister {
                     //   System.out.println("TheBeatles");
                     // }
 
-
-
-                    // ctrl z a while to back to where regular tax was calculating
                     if (current.contains(".")) {
                       currentPrice = Double.parseDouble(current);
                       newItem.setPrice(currentPrice);
