@@ -111,17 +111,21 @@ public class cashRegister {
                             // 0.00
                             if (newItem.getExemption() == false) {
                                 regularTax = (price * 0.1f);
-                                
+                                Float test = roundTo5(regularTax * 100);
+                                System.out.println("TEST" + test);
                                 System.out.println("tax = " + regularTax);
                                 runningTax = (runningTax + (regularTax * quantity));
                             }
 
                             if (newItem.getDuty() == true) {
+
                                 importTax = (price * 0.05f);
+                                Float test = roundTo5(importTax * 100);
+                                System.out.println("TEST" + test);
                                 System.out.println("tax = " + importTax);
                                 runningTax = (runningTax + (importTax * quantity));
                             }
-                            newItem.setPrice(newItem.getPrice() + regularTax + importTax);
+                            newItem.setPrice(newItem.getPrice() + regularTax + (importTax);
                             runningTotal = runningTotal + (newItem.getPrice());
                             System.out.println();
                         }
@@ -157,21 +161,21 @@ public class cashRegister {
     } 
 
     public static Float roundTo5(Float tax) {
-          Float cents   = tax * 100;
-          Float fiveValue = cents % 5.0f;
-          if (fiveValue == 1.0) {
-              return ((tax - fiveValue) / 10);
+          // Float cents = tax * 100;
+          Float fiveValue = tax % 5.0f;
+          if (fiveValue == 1.0f) {
+              return ((tax - fiveValue) / 10.0f);
           }
-          else if (fiveValue == 2.0) {
-              return ((tax - fiveValue) / 10);
+          else if (fiveValue == 2.0f) {
+              return ((tax - fiveValue) / 10.0f);
           }
-          else if (fiveValue == 3.0) {
-              return ((tax + 0.02f) / 10);
+          else if (fiveValue == 3.0f) {
+              return ((tax + 0.02f) / 10.0f);
           }
-          else if (fiveValue == 4.0) {
-              return ((tax + 0.01f) / 10f);
+          else if (fiveValue == 4.0f) {
+              return ((tax + 0.01f) / 10.0f);
           }
-              return cents / 1000;
+              return tax / 1000.0f;
     }
 
     public static boolean exemptFind(String word, String[] taxExempt) {
