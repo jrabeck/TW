@@ -125,7 +125,7 @@ public class cashRegister {
                                 System.out.println("tax = " + importTax);
                                 runningTax = (runningTax + (importTax * quantity));
                             }
-                            newItem.setPrice(newItem.getPrice() + regularTax + (importTax);
+                            newItem.setPrice(newItem.getPrice() + regularTax + importTax);
                             runningTotal = runningTotal + (newItem.getPrice());
                             System.out.println();
                         }
