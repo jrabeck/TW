@@ -12,7 +12,7 @@ import java.io.IOException;
 // originally I was thinking of how to add in user data with prompts, but 
 // remembered the directions say to take input instead. this means that 
 // structurally i *DONT* need an array built for cart that I can push into, 
-// or at least not until I'm ready to get faadfadfadsfncy. 
+// or at least not until I'm ready to get fancy. 
 
 class Item {
   // yes, i know this is abbhorent having everything public
@@ -88,7 +88,6 @@ public class cashRegister {
             File input = new File("input.txt");
             reader = new BufferedReader(new FileReader(input));
             String itemDesc;
-
             int customerNumber = 0;
             Double runningTotal = 0.0;
             Double runningTax = 0.0;
@@ -178,8 +177,7 @@ public class cashRegister {
                       }
                   
                 }
-                  // pretty sure this is where the total should be printed out after fixing 
-                  // the quantity problem.
+                
             }
 
             System.out.println("Sales Taxes: " + runningTax);
