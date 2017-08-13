@@ -110,9 +110,10 @@ public class cashRegister {
                             Float realTax = 0.0f;
                             // 0.00
                             if (newItem.getExemption() == false) {
+                                // Float priceCents = price * 100;
                                 regularTax = (price * 0.1f);
-                                Float test = roundTo5(regularTax * 100);
-                                System.out.println("TEST" + test);
+                                
+                                
                                 System.out.println("tax = " + regularTax);
                                 runningTax = (runningTax + (regularTax * quantity));
                             }
@@ -120,8 +121,23 @@ public class cashRegister {
                             if (newItem.getDuty() == true) {
 
                                 importTax = (price * 0.05f);
-                                Float test = roundTo5(importTax * 100);
-                                System.out.println("TEST" + test);
+                                
+                                int taxx = Math.round(importTax * 1000);
+                                int modulus = Math.round(taxx % 5);
+                                if (modulus == 1) {
+                                    newItem.setPrice(price - modulus);
+                                }
+                                else if (modulus == 2) {
+                                    newItem.setPrice(price - modulus);
+                                }
+                                else if (modulus == 3) {
+                                    newItem.setPrice(price + 0.02f);
+                                }
+                                else if (modulus == 4) {
+                                    newItem.setPrice(price + 0.01f);
+                                }
+
+                               
                                 System.out.println("tax = " + importTax);
                                 runningTax = (runningTax + (importTax * quantity));
                             }
@@ -133,7 +149,7 @@ public class cashRegister {
                     }
                     String zero = "";
                     
-                    if (newItem.getPrice() % 0.01 < 0.0 ) {
+                    if ((newItem.getPrice() % 0.1) == 0.0 ) {
                         zero = "0";
                     } 
 
@@ -160,23 +176,7 @@ public class cashRegister {
         System.out.println("==========");
     } 
 
-    public static Float roundTo5(Float tax) {
-          // Float cents = tax * 100;
-          Float fiveValue = tax % 5.0f;
-          if (fiveValue == 1.0f) {
-              return ((tax - fiveValue) / 10.0f);
-          }
-          else if (fiveValue == 2.0f) {
-              return ((tax - fiveValue) / 10.0f);
-          }
-          else if (fiveValue == 3.0f) {
-              return ((tax + 0.02f) / 10.0f);
-          }
-          else if (fiveValue == 4.0f) {
-              return ((tax + 0.01f) / 10.0f);
-          }
-              return tax / 1000.0f;
-    }
+
 
     public static boolean exemptFind(String word, String[] taxExempt) {
         for(int i = 0; i < (taxExempt.length); i++) {
