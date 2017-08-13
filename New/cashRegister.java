@@ -46,6 +46,10 @@ class Item {
       quantity = newQuantity;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -95,14 +99,14 @@ public class cashRegister {
               
                 if (itemDesc.contains("Input")) {
                     if (runningTotal != 0.0) {
-                      System.out.println("Sales Taxes: " + runningTax);
-                      System.out.println("Total: " + runningTotal);
-                      System.out.println();
+                        System.out.println("Sales Taxes: " + runningTax);
+                        System.out.println("Total: " + runningTotal);
+                        System.out.println();
                     }
                     runningTotal = 0.0;
                     runningTax = 0.0;
                     customerNumber = customerNumber + 1;
-                    System.out.println("Output: " + customerNumber);
+                    System.out.println("Output " + customerNumber + ":");
                 }
 
                 else if (itemDesc.isEmpty()) {
@@ -116,7 +120,7 @@ public class cashRegister {
                     boolean isExempt = exemptFind(itemDesc, exempt);
                     boolean hasADuty = dutyFind(itemDesc, imported);
                     StringTokenizer words = new StringTokenizer(itemDesc);
-                    System.out.println(itemDesc);
+                    // System.out.println(itemDesc);
                     // this whole first character thing I wrote to help with the quantity
                     // problem, to have firstCharacter to use in a method
                     String firstCharacter = words.nextToken();
@@ -145,7 +149,7 @@ public class cashRegister {
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
-                        if (current != "at") {
+                        if (!current.equals("at") && !current.contains(".")) {
                             newItem.setName(newItem.getName() + " " + current);
                         }
 
@@ -158,14 +162,34 @@ public class cashRegister {
                         if (current.contains(".")) {
                             currentPrice = Double.parseDouble(current);
                             newItem.setPrice(currentPrice);
-
+                            Double cents = newItem.getPrice() * 100;
                             if (newItem.getExemption() == false) {
+
                                 Double tax = (newItem.getPrice() * 0.1);
+                                // Double taxCents = tax * 100;
+                                // Double fiveTax = taxCents % 5.0;
+                                //     if (fiveTax == 1.0) {
+                                //         tax = tax - fiveTax;
+                                //     }
+                                //     if (fiveTax == 2.0) {
+                                //         tax = tax - fiveTax;
+                                //     }
+                                //     else if (fiveTax == 3.0) {
+                                //         tax = tax + 0.02;
+                                //     }
+                                //     else if (fiveTax == 4.0) {
+                                //         tax = tax + 0.01;
+                                //     }
+                                //     else if (fiveTax == 0.0) {
+
+                                //     }
+                                //   newItem.setPrice((newItem.getPrice() + tax) * quantity);
+
                                 Double roundTax = Math.round(tax*100.0)/100.0;
                                 Double afterTax = newItem.getPrice() + roundTax;
                                 afterTax = Math.round(afterTax*100.0)/100.0;
                                 newItem.setPrice(afterTax * quantity);
-                                runningTax = (runningTax + tax);
+                                runningTax = (runningTax + (tax * quantity));
                             }
                                 else {
                                     newItem.setPrice(currentPrice * quantity);
@@ -180,12 +204,13 @@ public class cashRegister {
                                 runningTax = (runningTax + duty);
                             }
                             runningTotal = runningTotal + (newItem.getPrice());
-                            System.out.println(newItem.getName());
+                            
                         }
 
                     }
-                  
+                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + newItem.getPrice());
                 }
+
                 
             }
 
