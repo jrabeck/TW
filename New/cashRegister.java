@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.NumberFormat;
 import java.io.IOException;
 
 
@@ -75,9 +76,11 @@ public class cashRegister {
     public static void main(String[] args) {
 
         String currentLine = null;
-
-        String[] imported = {"imported", "foriegn"};
-        String[] exempt = {"book", "medical", "chocolate"};
+        NumberFormat decimal = NumberFormat.getNumberInstance();
+        decimal.setMaximumFractionDigits(2);
+        decimal.setMinimumFractionDigits(2);
+        String[] imported = {"imported"};
+        String[] exempt = {"book", "pills", "chocolate"};
         // Item basket[] = new Item[4];
         // basket[1] = new Item("hi", 4.7, false);
         // // List<Item> order = new ArrayList<Item>();
@@ -93,7 +96,6 @@ public class cashRegister {
             Double runningTotal = 0.0;
             Double runningTax = 0.0;
 
-
             while ((line = reader.readLine()) != null) { 
 
                 
@@ -107,9 +109,6 @@ public class cashRegister {
                   line = ("Output: " + customerNumber);
                   System.out.println(line);
                 }
-                  
-
-            
 
                 else {
               // line is the string of a line as a whole, words is the line
@@ -133,7 +132,7 @@ public class cashRegister {
                     newItem.setQuantity(quantity);
                     Double currentPrice = newItem.price;
                     if (isExempt == true) {
-                    newItem.setExemption(isExempt);
+                        newItem.setExemption(isExempt);
                      }
                     if (hasADuty == true) {
                         newItem.setDuty(hasADuty);
@@ -141,38 +140,36 @@ public class cashRegister {
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
-                    // boolean isExempt = exemptFind(current, exempt);
-                    // if (isExempt == true) {
-                    // newItem.setExemption(isExempt);
-                    // }
-                    // if (current instanceof String) {
-                    //   System.out.println("TheBeatles");
-                    // }
-
-                    if (current.contains(".")) {
-                      currentPrice = Double.parseDouble(current);
-                      newItem.setPrice(currentPrice);
-                        if (newItem.getExemption() == false) {
-                        Double afterTax = newItem.price + (newItem.price * 0.1);
-                        newItem.setPrice(afterTax * quantity);
-                        runningTax = (runningTax + (newItem.price * 0.1));
-                        }
-                          else {
-                            newItem.setPrice(currentPrice * quantity);
+                      if (current.contains(".")) {
+                        currentPrice = Double.parseDouble(current);
+                        newItem.setPrice(currentPrice);
+                          if (newItem.getExemption() == false) {
+                          Double tax = (newItem.price * 0.1);
+                          Double roundTax = Math.round(tax*100.0)/100.0;
+                          Double afterTax = newItem.price + roundTax;
+                          afterTax = Math.round(afterTax*100.0)/100.0;
+                          newItem.setPrice(afterTax * quantity);
+                          runningTax = (runningTax + tax);
                           }
-                        if (newItem.getDuty() == true) {
-                        Double afterDuty = newItem.price + (newItem.price * 0.05);
-                        newItem.setPrice(afterDuty);
-                        runningTax = (runningTax + (newItem.price * 0.05));
-                        }
-                      runningTotal = runningTotal + (newItem.getPrice());
-                    }
+                            else {
+                              newItem.setPrice(currentPrice * quantity);
+                            }
+                          if (newItem.getDuty() == true) {
+                          Double duty = (newItem.price * 0.05);
+                          Double roundDuty = Math.round(duty*100.0)/100.0;
+                          Double afterDuty = newItem.price + roundDuty;
+                          afterDuty = Math.round(afterDuty*100.0)/100.0;
+                          newItem.setPrice(afterDuty);
+                          runningTax = (runningTax + duty);
+                          System.out.println("****" + afterDuty);
+                          }
+                        runningTotal = runningTotal + (newItem.getPrice());
+                      }
 
                 }
 
-                  System.out.println("With tax: " + newItem.getPrice());
-                  System.out.println("Running Tax: " + runningTax + "\n");
-                  System.out.println("Total: " + runningTotal + "\n");
+                  System.out.println("Running Tax: " + runningTax);
+                  System.out.println("Total: " + runningTotal);
                   
                   
             }
@@ -190,18 +187,13 @@ public class cashRegister {
                 e.printStackTrace();
             }
         }
-        System.out.println("=====================");
+        System.out.println("==========");
     } 
     // *********MAIN*************
 
 
-
-
-
   public static boolean exemptFind(String word, String[] taxBracket) {
-
-      for(int i = 0; i < (taxBracket.length); i++)
-      {
+      for(int i = 0; i < (taxBracket.length); i++) {
           if (word.contains(taxBracket[i]))
           {
               return true;
@@ -211,9 +203,7 @@ public class cashRegister {
   }
 
   public static boolean dutyFind(String wordd, String[] dutyCheck) {
-
-      for(int i = 0; i < (dutyCheck.length); i++)
-      {
+      for(int i = 0; i < (dutyCheck.length); i++) {
           if (wordd.contains(dutyCheck[i]))
           {
               return true;
