@@ -145,6 +145,16 @@ public class cashRegister {
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
+                        if (current != "at") {
+                            newItem.setName(newItem.getName() + " " + current);
+                        }
+
+                        // else {
+                        //   currentPrice = current.nextToken();
+                        //   currentPrice = Double.parseDouble(nextToken());
+                        //   newItem.setPrice(currentPrice);
+                        // }
+
                         if (current.contains(".")) {
                             currentPrice = Double.parseDouble(current);
                             newItem.setPrice(currentPrice);
@@ -170,6 +180,7 @@ public class cashRegister {
                                 runningTax = (runningTax + duty);
                             }
                             runningTotal = runningTotal + (newItem.getPrice());
+                            System.out.println(newItem.getName());
                         }
 
                     }
