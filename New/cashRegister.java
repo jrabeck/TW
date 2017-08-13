@@ -76,9 +76,6 @@ public class cashRegister {
     public static void main(String[] args) {
 
         String currentLine = null;
-        NumberFormat decimal = NumberFormat.getNumberInstance();
-        decimal.setMaximumFractionDigits(2);
-        decimal.setMinimumFractionDigits(2);
         String[] imported = {"imported"};
         String[] exempt = {"book", "pills", "chocolate"};
         // Item basket[] = new Item[4];
@@ -100,7 +97,7 @@ public class cashRegister {
               
                 if (itemDesc.contains("Input")) {
                   if (runningTotal != 0.0) {
-                    System.out.println("Running Tax: " + runningTax);
+                    System.out.println("Sales Taxes: " + runningTax);
                     System.out.println("Total: " + runningTotal);
                     System.out.println();
                   }
@@ -117,14 +114,21 @@ public class cashRegister {
                 else {
               // itemDesc is the string of a itemDesc as a whole, words is the itemDesc
               // as an object, current is the current word as a string. 
-                      System.out.println(itemDesc);
                       Item newItem = new Item("", 0, false, 0, false);                 
                       boolean isExempt = exemptFind(itemDesc, exempt);
                       boolean hasADuty = dutyFind(itemDesc, imported);
                       StringTokenizer words = new StringTokenizer(itemDesc);
+              
+                      System.out.println(itemDesc);
                       // this whole first character thing I wrote to help with the quantity
                       // problem, to have firstCharacter to use in a method
                       String firstCharacter = words.nextToken();
+                      //  while (words.hasMoreTokens()) {  
+                      //  String currentt = words.nextToken();
+                      //  if (currentt == "a") {
+                      //   currentt = ":";
+                      //  }       
+                      // }
                       // System.out.println(firstCharacter);
                       // so what's happening is it's going to the first character and seeing
                       // that it ("I") isn't int convertable, and this is breaking the try 
@@ -137,7 +141,7 @@ public class cashRegister {
                       Double currentPrice = newItem.price;
                       if (isExempt == true) {
                           newItem.setExemption(isExempt);
-                       }
+                      }
                       if (hasADuty == true) {
                           newItem.setDuty(hasADuty);
                       }
