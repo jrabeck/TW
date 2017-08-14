@@ -8,21 +8,24 @@ import java.io.FileReader;
 import java.text.NumberFormat;
 import java.io.IOException;
 
-
-// originally I was thinking of how to add in user data with prompts, but 
-// remembered the directions say to take input instead. this means that 
-// structurally i *DONT* need an array built for cart that I can push into, 
-// or at least not until I'm ready to get fancy. 
+// Hello ThoughtWorks!
+// Learning Java almost from scratch in 1.5 weeks and writing this program was one of the hardest
+// technological/academic things I've done and regardless of how silly this code is at times, I'm 
+// very proud of it, every line is hard won. It takes in Items as objects with attributes but does
+// not store them longer than it takes to print them out. It's basically all in the main method
+// which I know is sloppy and the logic isn't split up into methods the way it should be. The rounding
+// to 5 strategy is almost a parody of itself, but it works! I mention all this not to talk myself 
+// down (this thing runs I'm proud of it!) but to demonstrate that I understand concepts beyond what 
+// I've show here. I'd love the opportunity to come in and work with the team on how to implement my 
+// real vision for the program of having an Abstract Factory pattern, where each type of item is 
+// its own factory.   
 
 public class cashRegister {
     public static void main(String[] args) {
 
-        String currentLine = null;
         String[] imported = {"imported"};
-        String[] exempt = {"book", "pills", "chocolate", "chocolates"};
-        // Item basket[] = new Item[4];
-        // basket[1] = new Item("hi", 4.7, false);
-        // // List<Item> order = new ArrayList<Item>();
+        String[] exempt = {"book", "pills", "chocolate"};
+        String currentLine = null;
         BufferedReader reader = null;
 
         try {
@@ -53,38 +56,23 @@ public class cashRegister {
                 }
 
                 else {
-                    // itemDesc is the string of a itemDesc as a whole, words is the itemDesc
-                    // as an object, current is the current word as a string. 
                     Item newItem = new Item("", 0.0f, false, 0.0f, false);                 
                     boolean isExempt = exemptFind(itemDesc, exempt);
                     boolean hasADuty = dutyFind(itemDesc, imported);
                     StringTokenizer words = new StringTokenizer(itemDesc);
-                    // System.out.println(itemDesc);
-                    // this whole first character thing I wrote to help with the quantity
-                    // problem, to have firstCharacter to use in a method
                     String firstCharacter = words.nextToken();
-                    //  while (words.hasMoreTokens()) {  
-                    //  String currentt = words.nextToken();
-                    //  if (currentt == "a") {
-                    //   currentt = ":";
-                    //  }       
-                    // }
-                    // System.out.println(firstCharacter);
-                    // so what's happening is it's going to the first character and seeing
-                    // that it ("I") isn't int convertable, and this is breaking the try 
-                    // method, which even though I don't understadn try really, i get. it's an
-                    // exception that it catches. I 
-                    // can't do any code after the final because of this. still compiles
-                    // for some reason. 
                     Float quantity = Float.parseFloat(firstCharacter); 
                     newItem.setQuantity(quantity);
                     Float currentPrice = newItem.getPrice();
+
                     if (isExempt == true) {
                         newItem.setExemption(isExempt);
                     }
+
                     if (hasADuty == true) {
                         newItem.setDuty(hasADuty);
                     }
+
                     while (words.hasMoreTokens()) {         
                     String current = words.nextToken();
 
@@ -92,36 +80,24 @@ public class cashRegister {
                             newItem.setName(newItem.getName() + " " + current);
                         }
 
-                        // else {
-                        //   currentPrice = current.nextToken();
-                        //   currentPrice = Float.parseFloat(nextToken());
-                        //   newItem.setPrice(currentPrice);
-                        // }
-
                         if (current.contains(".")) {
                             currentPrice = Float.parseFloat(current);
                             newItem.setPrice(currentPrice);
                             Float price = newItem.getPrice();
                             Float regularTax = 0.0f;
                             Float importTax = 0.0f;
-                            // 14.99
                             Float cents = newItem.getPrice() * 100;
-                            // 1499
                             Float realTax = 0.0f;
-                            // 0.00
                             if (newItem.getExemption() == false) {
-                                // Float priceCents = price * 100;
                                 regularTax = (price * 0.1f);
-                                
-                                
-                                // System.out.println(newItem.getName() + "Regular tax = " + String.format("%.2f", regularTax));
                                 runningTax = (runningTax + (regularTax * quantity));
                             }
 
-                            if (newItem.getDuty() == true) {
-                                
+                            if (newItem.getDuty() == true) {  
                                 importTax = (price * 0.05f);
-                                // System.out.println(newItem.getName() + "INPUT TAX" + String.format("%.2f", importTax));
+
+                                // This was a bit of a more sustainable strategy I attempted but it didn't work 
+                                // out for me. 
                                 // int taxx = Math.round(importTax);
                                 // int modulus = Math.round(taxx % 5);
                                 // if (modulus == 1) {
@@ -137,17 +113,12 @@ public class cashRegister {
                                 //     importTax = (importTax + 0.01f);
                                 // }
                                 // else {
-
                                 // }
 
-                                // import tax as string
                                 String importTaxString = String.format("%.2f", importTax);
-                                // import tax as four digit float
                                 Float fourDigitTax = Float.parseFloat(importTaxString);
-                                // four digit as string
                                 String fourDigitTaxString = String.format("%.2f", fourDigitTax);
                                 String[] splitter = fourDigitTaxString.split("");
-                                // lastDigit as string
                                 String lastDigit = splitter[splitter.length-1];
                                 Integer lastDigitInt = Integer.parseInt(lastDigit);
 
@@ -187,25 +158,20 @@ public class cashRegister {
                             }
 
                             Float finalItemTax = regularTax + importTax;
-
-
-
                             newItem.setPrice(newItem.getPrice() + regularTax + importTax);
                             runningTotal = runningTotal + (newItem.getPrice());
                            
                         }
 
                     }
-                    // Float tax = newItem.getPrice();
-                    // DecimalFormat dec = new DecimalFormat("#.##").format(tax);
-                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + String.format("%.2f", newItem.getPrice()));
+                    System.out.println(Math.round(newItem.getQuantity()) + newItem.getName() + ": " + String.format("%.2f", newItem.getPrice()));
                 }
 
                 
             }
 
-                        System.out.println("Sales Taxes: " + String.format("%.2f", runningTax));
-                        System.out.println("Total: " + String.format("%.2f", runningTotal));
+            System.out.println("Sales Taxes: " + String.format("%.2f", runningTax));
+            System.out.println("Total: " + String.format("%.2f", runningTotal));
 
         } catch (IOException e) {
             e.printStackTrace();
