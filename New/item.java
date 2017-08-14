@@ -54,6 +54,7 @@ class Item {
         return this.name;
     }
 
+    // These are some methods I didn't end up using from a different approach. 
     public void standardTax() {
         price = price + (price / 10.0f); 
     }
