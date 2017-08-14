@@ -19,7 +19,7 @@ public class cashRegister {
 
         String currentLine = null;
         String[] imported = {"imported"};
-        String[] exempt = {"book", "pills", "chocolate"};
+        String[] exempt = {"book", "pills", "chocolate", "chocolates"};
         // Item basket[] = new Item[4];
         // basket[1] = new Item("hi", 4.7, false);
         // // List<Item> order = new ArrayList<Item>();
@@ -30,7 +30,7 @@ public class cashRegister {
             File input = new File("input.txt");
             reader = new BufferedReader(new FileReader(input));
             String itemDesc;
-            Float customerNumber = 0f;
+            Integer customerNumber = 0;
             Float runningTotal = 0.0f;
             Float runningTax = 0.0f;
 
@@ -38,8 +38,8 @@ public class cashRegister {
               
                 if (itemDesc.contains("Input")) {
                     if (runningTotal != 0.0) {
-                        System.out.println("Sales Taxes: " + runningTax);
-                        System.out.println("Total: " + runningTotal);
+                        System.out.println("Sales Taxes: " + String.format("%.2f", runningTax));
+                        System.out.println("Total: " + String.format("%.2f", runningTotal));
                         System.out.println();
                     }
                     runningTotal = 0.0f;
@@ -114,55 +114,98 @@ public class cashRegister {
                                 regularTax = (price * 0.1f);
                                 
                                 
-                                System.out.println("tax = " + regularTax);
+                                // System.out.println(newItem.getName() + "Regular tax = " + String.format("%.2f", regularTax));
                                 runningTax = (runningTax + (regularTax * quantity));
                             }
 
                             if (newItem.getDuty() == true) {
-
-                                importTax = (price * 0.05f);
                                 
-                                int taxx = Math.round(importTax * 1000);
-                                int modulus = Math.round(taxx % 5);
-                                if (modulus == 1) {
-                                    newItem.setPrice(price - modulus);
-                                }
-                                else if (modulus == 2) {
-                                    newItem.setPrice(price - modulus);
-                                }
-                                else if (modulus == 3) {
-                                    newItem.setPrice(price + 0.02f);
-                                }
-                                else if (modulus == 4) {
-                                    newItem.setPrice(price + 0.01f);
-                                }
+                                importTax = (price * 0.05f);
+                                // System.out.println(newItem.getName() + "INPUT TAX" + String.format("%.2f", importTax));
+                                // int taxx = Math.round(importTax);
+                                // int modulus = Math.round(taxx % 5);
+                                // if (modulus == 1) {
+                                //     importTax = importTax;
+                                // }
+                                // else if (modulus == 2) {
+                                //     importTax = importTax;
+                                // }
+                                // else if (modulus == 3) {
+                                //     importTax = (importTax + 0.02f);
+                                // }
+                                // else if (modulus == 4) {
+                                //     importTax = (importTax + 0.01f);
+                                // }
+                                // else {
 
-                               
-                                System.out.println("tax = " + importTax);
+                                // }
+
+                                // import tax as string
+                                String importTaxString = String.format("%.2f", importTax);
+                                // import tax as four digit float
+                                Float fourDigitTax = Float.parseFloat(importTaxString);
+                                // four digit as string
+                                String fourDigitTaxString = String.format("%.2f", fourDigitTax);
+                                String[] splitter = fourDigitTaxString.split("");
+                                // lastDigit as string
+                                String lastDigit = splitter[splitter.length-1];
+                                Integer lastDigitInt = Integer.parseInt(lastDigit);
+
+                                if (lastDigitInt == 1) {
+                                    importTax = importTax - 0.01f;
+                                } 
+
+                                if (lastDigitInt == 2) {
+                                    importTax = importTax - 0.02f;
+                                } 
+
+                                if (lastDigitInt == 3) {
+                                    importTax = importTax + 0.02f;
+                                } 
+
+                                if (lastDigitInt == 4) {
+                                    importTax = importTax + 0.01f; 
+                                } 
+
+                                if (lastDigitInt == 6) {
+                                    importTax = importTax - 0.01f;  
+                                } 
+
+                                if (lastDigitInt == 7) {
+                                    importTax = importTax - 0.02f;  
+                                } 
+
+                                if (lastDigitInt == 8) {
+                                    importTax = importTax + 0.02f; 
+                                } 
+
+                                if (lastDigitInt == 9) {
+                                    importTax = importTax + 0.01f; 
+                                } 
+
                                 runningTax = (runningTax + (importTax * quantity));
                             }
+
+                            Float finalItemTax = regularTax + importTax;
+
+
+
                             newItem.setPrice(newItem.getPrice() + regularTax + importTax);
                             runningTotal = runningTotal + (newItem.getPrice());
-                            System.out.println();
+                           
                         }
 
                     }
-                    String zero = "";
-                    
-                    if ((newItem.getPrice() % 0.1) == 0.0 ) {
-                        zero = "0";
-                    } 
-
                     // Float tax = newItem.getPrice();
                     // DecimalFormat dec = new DecimalFormat("#.##").format(tax);
-                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + newItem.getPrice() + zero);
+                    System.out.println(newItem.getQuantity() + newItem.getName() + ": " + String.format("%.2f", newItem.getPrice()));
                 }
 
                 
             }
 
-            System.out.println("Sales Taxes: " + runningTax);
-            System.out.println("Total: " + runningTotal);
+                        System.out.println("Sales Taxes: " + String.format("%.2f", runningTax));
+                        System.out.println("Total: " + String.format("%.2f", runningTotal));
 
         } catch (IOException e) {
             e.printStackTrace();
